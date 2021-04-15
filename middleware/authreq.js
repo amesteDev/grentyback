@@ -1,0 +1,1 @@
+//kolla så anropet innehåller rätt kod från klienten, vill inte ha massa anrop fråån randoms
