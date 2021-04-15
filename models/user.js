@@ -36,7 +36,8 @@ const UserSchema = new mongoose.Schema({
     machines: [{
         type: String,
         img: String,
-        
+        description: String,
+        rentedtime: Date
     }]
 }, {
     collection: 'user'
