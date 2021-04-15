@@ -8,28 +8,36 @@ const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+        required: true
     },
-    avatar: {
+    adress: {
         type: String,
         required: true
     },
-    level: {
+    zip: {
         type: Number,
         required: true
     },
-    xp: {
-        type: Number,
-        required: true
-    },
-    skincollection: {
-        type: Array,
-        required: true
-    },
-    usertype: {
+    city: {
         type: String,
         required: true
-    }
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: Number,
+    },
+    machines: [{
+        type: String,
+        img: String,
+        
+    }]
 }, {
     collection: 'user'
 });
