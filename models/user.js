@@ -40,7 +40,7 @@ const UserSchema = new mongoose.Schema({
         rentedtime: Date
     }]
 }, {
-    collection: 'user'
+    collection: 'users'
 });
 
 

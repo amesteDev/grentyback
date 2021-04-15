@@ -7,11 +7,9 @@ const io = require('socket.io')(http);
 const mongoose = require('mongoose');
 
 
-app.use('/login', login);
-app.use('/profile', profile);
-
-const login = require('./Routes/login');
-const profile = require('./Routes/profile');
+//connect to mongodb
+mongoose.connect(process.env.DB_STRING, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false });
+mongoose.Promise = global.Promise;
 
 const PORT = process.env.PORT || 3000;
 http.listen(PORT, () => { console.log('Server is running on: ' + PORT) });
