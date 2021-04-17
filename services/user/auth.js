@@ -3,7 +3,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const userModel = require('../../models/user');
 const sendMail = require('../helpers/sendmail');
+
 class AuthServ {
+
 
     async Register(userData) {
         try {
@@ -26,7 +28,7 @@ class AuthServ {
                 throw new Error('User cannot be created');
             }
             const sendmail = new sendMail();
-            await this.sendmail.WelcomeMail(userRecord);
+            await this.sendmail.WelcomeMail(userRecord.email);
 
             const user = userRecord.toObject();
             Reflect.deleteProperty(user, 'password');
