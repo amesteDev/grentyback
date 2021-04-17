@@ -7,14 +7,14 @@ const authserv = new AuthServ();
 router.post('/reg',
 async (req, res, next) => {
     //code for reg here
-    
+    authserv.Register(req.data);
 })
 
 router.post('/login', 
 async (req, res, next) => {
     //code for login her
-    let kram = await authserv.Logit();
-    res.status(200).send(kram);
+    //send email and password to authserv.Login
+    authserv.Login(req.data);
 })
 
 
