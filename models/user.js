@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-    username: {
+    email: {
         type: String,
         required: true,
         unique: true
@@ -26,10 +26,6 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        required: true
-    },
     phone: {
         type: Number,
     },
@@ -38,7 +34,10 @@ const UserSchema = new mongoose.Schema({
         img: String,
         description: String,
         rentedtime: Date
-    }]
+    }],
+    username: {
+        type: String
+    }
 }, {
     collection: 'users'
 });

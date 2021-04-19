@@ -7,7 +7,13 @@ const authserv = new AuthServ();
 router.post('/reg',
     async (req, res, next) => {
         //code for reg here
-        authserv.Register(req.data);
+        try{
+            let reg = await authserv.Register(req.body);
+            res.send(reg);
+        } catch(e){
+            return next(e);
+        }
+        
     })
 
 router.post('/login',

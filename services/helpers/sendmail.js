@@ -24,7 +24,7 @@ class mailSender {
         //det här är bara låtsaskod
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.log(erorr)
+                console.log(error)
             } else {
                 console.log('Email sent: ' + info.response)
             }

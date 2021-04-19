@@ -7,8 +7,10 @@ const sendMail = require('../helpers/sendmail');
 class AuthServ {
     async Register(userData) {
         try {
+    
             //kolla så inte e-post finns reggad redan må fixa så den kommer åt email bara
-            const isAlreadyRegged = await userModel.findone({ userData });
+            let email = userData.email;
+            const isAlreadyRegged = await userModel.findOne({ email });
             if (isAlreadyRegged) {
                 throw new Error('User already registered')
             }
@@ -25,8 +27,8 @@ class AuthServ {
             if (!userRecord) {
                 throw new Error('User cannot be created');
             }
-            const sendmail = new sendMail();
-            await sendmail.WelcomeMail(userRecord.email);
+            //const sendmail = new sendMail();
+            //await sendmail.WelcomeMail(userRecord.email);
 
             const user = userRecord.toObject();
             Reflect.deleteProperty(user, 'password');
