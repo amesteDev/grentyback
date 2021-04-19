@@ -10,7 +10,7 @@ const MachineSchema = new mongoose.Schema({
         required: true
     },
     img: {
-        type: File
+        type: String
     },
     rentedDates: {
         type: Date

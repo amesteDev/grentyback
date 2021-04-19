@@ -6,7 +6,13 @@ class MachineServ {
     async Add(machineData) {
         const user = machineData.userid;
         let currentUser = await userModel.findById(user);
-        return currentUser.machines;
+        if(!currentUser){
+            throw new Error('Bad user');
+        }
+        currentUser.machines.push(machineData);
+        currentUser.markModified('machines');
+        currentUser.save();
+        return currentUser;
     }
 
     async Edit() {
@@ -16,7 +22,6 @@ class MachineServ {
     async Delete() {
 
     }
-    
 
 }
 

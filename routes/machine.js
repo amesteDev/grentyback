@@ -1,8 +1,3 @@
-//add machine to collection
-
-//remove machine from collection
-
-//update info on machine
 const express = require("express");
 const router = express.Router();
 const authed = require("../middleware/authreq");
@@ -17,6 +12,7 @@ router.post('/add', async (req, res, next) => {
     let reg = await machinserv.Add(req.body);
     res.send(reg);
 })
+
 
 router.put('/update', async (req, res, next) => {
     //update info on machine
