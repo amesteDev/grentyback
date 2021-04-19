@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './.env' });
 const io = require('socket.io')(http);
 const mongoose = require('mongoose');
+const bp = require('body-parser');
 
 //import routes
 const user = require('./routes/user.js');
@@ -15,6 +16,7 @@ const profile = require('./routes/profile');
 //connect to mongodb
 mongoose.connect(process.env.DB_STRING, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false });
 mongoose.Promise = global.Promise;
+app.use(express.json());
 
 app.use('/user', user);
 app.use('/profile', profile);
