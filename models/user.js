@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const MachineSchema = require('./machine');
 
 const UserSchema = new mongoose.Schema({
     email: {
@@ -29,12 +30,7 @@ const UserSchema = new mongoose.Schema({
     phone: {
         type: Number,
     },
-    machines: [{
-        type: String,
-        img: String,
-        description: String,
-        rentedtime: Date
-    }],
+    machines: [MachineSchema],
     username: {
         type: String
     }

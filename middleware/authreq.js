@@ -1,1 +1,17 @@
-//kolla så anropet innehåller rätt kod från klienten, vill inte ha massa anrop fråån randoms
+
+
+class AccessServ {
+
+    async CheckLoggedInUser() {
+        //check that the JWT provided is real and valid
+    }
+
+    async CheckClientAccess() {
+
+    }
+
+
+}
+
+
+module.exports = AccessServ;
