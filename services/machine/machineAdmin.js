@@ -15,12 +15,29 @@ class MachineServ {
         return currentUser;
     }
 
-    async Edit() {
-
+    async Update(id, machineData) {
+        let currentUser = await userModel.findById(id);
+        if(!currentUser){
+            throw new Error('Bad user');
+        }
+        currentUser.machines.id(machineData._id).description = machineData.description;
+        currentUser.machines.id(machineData._id).price = machineData.price;
+        currentUser.machines.id(machineData._id).img = machineData.img;
+        currentUser.machines.id(machineData._id).name = machineData.name;
+        currentUser.markModified('machines'); 
+        currentUser.save();
+        return currentUser;
     }
 
-    async Delete() {
-
+    async Delete(id, machineData) {
+        let currentUser = await userModel.findById(id);
+        if(!currentUser){
+            throw new Error('Bad user');
+        }
+        currentUser.machines.id(machineData._id).remove();
+        currentUser.markModified('machines'); 
+        currentUser.save();
+        return currentUser;
     }
 
 }

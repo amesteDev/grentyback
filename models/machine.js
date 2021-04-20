@@ -12,13 +12,11 @@ const MachineSchema = new mongoose.Schema({
     img: {
         type: String
     },
-    rentedDates: {
-        type: Date
-    },
     price: {
         type: Number,
         required: true
-    }
+    },
+    rentings: [RentSchema]
 });
 
 const Machine = mongoose.model("machine", MachineSchema);

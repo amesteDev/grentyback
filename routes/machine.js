@@ -14,12 +14,16 @@ router.post('/add', async (req, res, next) => {
 })
 
 
-router.put('/update', async (req, res, next) => {
+router.put('/update/:id', async (req, res, next) => {
+    let updated = await machineserv.Update(req.params.id, req.body);
+    res.send(updated);
     //update info on machine
 })
 
-router.delete('/delete', async (req, res, next) => {
+router.delete('/delete/:id', async (req, res, next) => {
     //delete a machine
+    let deleted = await machineserv.Delete(req.params.id, req.body);
+    res.send(deleted);
 })
 
 module.exports = router;
