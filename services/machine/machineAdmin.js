@@ -42,5 +42,4 @@ class MachineServ {
 
 }
 
-
 module.exports = MachineServ;

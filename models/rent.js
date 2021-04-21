@@ -13,7 +13,6 @@ const RentSchema = new mongoose.Schema({
         Type: Date,
         required: true
     }
-   
 });
 
 const Rent = mongoose.model("rent", RentSchema);
