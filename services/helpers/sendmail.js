@@ -3,7 +3,7 @@
 const nodemailer = require('nodemailer');
 
 class mailSender {
-    async WelcomeMail(email) {
+    async WelcomeMail(email, token) {
         const transporter = nodemailer.createTransport({
             host: 'ns10.inleed.net',
             port: 587,
@@ -14,11 +14,20 @@ class mailSender {
             }
         });
 
+        const generatedLink = 'kram.se'
+
+        const textToSend = `Hej och välkommen till Grenty! För att aktivera ditt konto och börja använda tjänsten behöver du klicka på länken här nedanför: 
+        https://grenty.se/user/activate/${token}
+
+        Vänligen
+        Teamet på grenty.se
+        `
+
         const mailOptions = {
             from: 'no-reply@grenty.se',
             to: email,
             subject: 'Välkommen till grenty.se',
-            text: 'För att bekfräta ditt konto behöver du göra följande: lblasgalfksadfsadf '
+            text: textToSend
         }
 
         //det här är bara låtsaskod

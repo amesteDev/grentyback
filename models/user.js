@@ -30,6 +30,10 @@ const UserSchema = new mongoose.Schema({
     phone: {
         type: Number,
     },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
     machines: [MachineSchema],
     username: {
         type: String

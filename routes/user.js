@@ -7,13 +7,13 @@ const authserv = new AuthServ();
 router.post('/reg',
     async (req, res, next) => {
         //code for reg here
-        try{
+        try {
             let reg = await authserv.Register(req.body);
             res.send(reg);
-        } catch(e){
+        } catch (e) {
             return next(e);
         }
-        
+
     })
 
 router.post('/login',
@@ -23,10 +23,21 @@ router.post('/login',
         try {
             let login = await authserv.Login(req.body.email, req.body.password);
             res.send(login)
-        } catch (e){
+        } catch (e) {
             return next(e);
         }
-})
+    })
+
+router.post('/activate/:id',
+    async (req, res, next) => {
+        try {
+            let activated = await authserv.Activate(req.params.id);
+            console.log(activated);
+            res.send(activated);
+        } catch (e) {
+            return next(e);
+        }
+    })
 
 
 module.exports = router;

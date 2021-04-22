@@ -1,5 +1,3 @@
-
-
 class AccessServ {
 
     async CheckLoggedInUser() {

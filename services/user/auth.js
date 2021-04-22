@@ -3,11 +3,12 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const userModel = require('../../models/user');
 const sendMail = require('../helpers/sendmail');
+const Token = require('../../models/token');
+const User = require('../../models/user');
 
 class AuthServ {
     async Register(userData) {
         try {
-    
             //kolla så inte e-post finns reggad redan må fixa så den kommer åt email bara
             let email = userData.email;
             const isAlreadyRegged = await userModel.findOne({ email });
@@ -18,21 +19,27 @@ class AuthServ {
             //now actually perform the registerprocess
             const saltRounds = 10;
             const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
+
             const userRecord = await userModel.create({
                 ...userData,
                 password: hashedPassword,
             });
-            const token = this.generateToken(userRecord);
+
+            const token = new Token({ _userId: userRecord._id, token: this.generateToken(userRecord) });
+            token.save((err) => {
+                if (err) { return res.status(500).send({ msg: err.message }); }
+            })
 
             if (!userRecord) {
                 throw new Error('User cannot be created');
             }
+
             const sendmail = new sendMail();
-            await sendmail.WelcomeMail(userRecord.email);
+            await sendmail.WelcomeMail(userRecord.email, token.token);
 
             const user = userRecord.toObject();
             Reflect.deleteProperty(user, 'password');
-            return { user, token };
+            return { user };
         } catch (e) {
             throw e;
         }
@@ -42,6 +49,9 @@ class AuthServ {
         const userRecord = await userModel.findOne({ email });
         if (!userRecord) {
             throw new Error('User not registered');
+        }
+        if (!userRecord.isVerified) {
+            throw new Error('User not verified');
         }
 
         const validPassword = await bcrypt.compare(password, userRecord.password);
@@ -57,6 +67,33 @@ class AuthServ {
             throw new Error('Invalid Password');
         }
     }
+
+    async Activate(activationToken) {
+        const token = await Token.findOne({ token: activationToken });
+      
+        if (!token) return { type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' };
+        const user = await User.findOne({ _id: token._userId });
+        console.log(user);
+        if (!user) return { msg: 'We were unable to find a user for this token.' };
+        if (user.isVerified) return { type: 'already-verified', msg: 'This user has already been verified.' };
+
+        user.isVerified = true;
+        return { msg: "The account has been verified. Please log in." };
+    }
+
+    async ResendToken(user) {
+        const userRecord = await User.findOne({ email: user.email });
+        if(!user) return {msg: 'No user found'};
+
+        const token = new Token({ _userId: userRecord._id, token: this.generateToken(userRecord) });
+        token.save((err) => {
+            if (err) { return res.status(500).send({ msg: err.message }); }
+        })
+
+        const sendmail = new sendMail();
+        await sendmail.WelcomeMail(user.email, token.token);
+    }
+
 
     generateToken(user) {
         const today = new Date();
