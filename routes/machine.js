@@ -5,7 +5,6 @@ const MachineServ  = require("../services/machine/machineAdmin");
 
 const machinserv = new MachineServ();
 
-
 router.get('/info', async (req, res, next) => {
     //hämta en användares alla maskiner
     let machines = machinserv.Get();
@@ -18,7 +17,7 @@ router.get('/info/:id', async (req, res, next) => {
     res.send(machine);
 })
 
-router.post('/add', async (req, res, next) => {
+router.post('/add', authed.CheckLoggedInUser, async (req, res, next) => {
     //add new machine
     //check if user is authed first also needs to send the user._id
     //to be sure that the machine is saved to the right document.
