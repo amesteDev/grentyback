@@ -13,11 +13,6 @@ class AccessServ {
         })
     }
 
-    async CheckClientAccess() {
-
-    }
-
-
 }
 
 
