@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 class mailSender {
     async WelcomeMail(email) {
         const transporter = nodemailer.createTransport({
-            host: 'kram',
+            host: 'ns10.inleed.net',
             port: 587,
             secure: false,
             auth: {

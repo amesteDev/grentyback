@@ -27,8 +27,8 @@ class AuthServ {
             if (!userRecord) {
                 throw new Error('User cannot be created');
             }
-            //const sendmail = new sendMail();
-            //await sendmail.WelcomeMail(userRecord.email);
+            const sendmail = new sendMail();
+            await sendmail.WelcomeMail(userRecord.email);
 
             const user = userRecord.toObject();
             Reflect.deleteProperty(user, 'password');

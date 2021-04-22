@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const RentSchema = require('./rent').schema;
 
 const MachineSchema = new mongoose.Schema({
-    name: {
+    machineName: {
         type: String,
         required: true
     },

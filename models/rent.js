@@ -10,8 +10,7 @@ const RentSchema = new mongoose.Schema({
         required: true
     },
     date: {
-        Type: Date,
-        required: true
+        Type: Date
     }
 });
 
