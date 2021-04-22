@@ -5,6 +5,19 @@ const MachineServ  = require("../services/machine/machineAdmin");
 
 const machinserv = new MachineServ();
 
+
+router.get('/info', async (req, res, next) => {
+    //hämta en användares alla maskiner
+    let machines = machinserv.Get();
+    res.send(machines);
+})
+
+router.get('/info/:id', async (req, res, next) => {
+    //hämta information om en användares maskin
+    let machine = machinserv.GetOneMachine(req.params.id);
+    res.send(machine);
+})
+
 router.post('/add', async (req, res, next) => {
     //add new machine
     //check if user is authed first also needs to send the user._id
@@ -12,7 +25,6 @@ router.post('/add', async (req, res, next) => {
     let reg = await machinserv.Add(req.body);
     res.send(reg);
 })
-
 
 router.put('/update/:id', async (req, res, next) => {
     let updated = await machineserv.Update(req.params.id, req.body);
@@ -26,4 +38,4 @@ router.delete('/delete/:id', async (req, res, next) => {
     res.send(deleted);
 })
 
-module.exports = router;
+module.exports = router; 

@@ -40,6 +40,14 @@ class MachineServ {
         return currentUser;
     }
 
+    async Get() {
+
+    }
+
+    async GetOneMachine(id) {
+        
+    }
+
 }
 
 module.exports = MachineServ;
