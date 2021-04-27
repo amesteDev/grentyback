@@ -6,6 +6,14 @@ class RentServ {
 
     }
 
+    async OpenChat(){
+
+    }
+
+    async CloseChat(){
+
+    }
+    
     async DeclineRent(){
 
     }

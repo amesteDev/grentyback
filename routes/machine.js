@@ -5,13 +5,13 @@ const MachineServ  = require("../services/machine/machineAdmin");
 
 const machinserv = new MachineServ();
 
-router.get('/info', async (req, res, next) => {
+router.get('/info/:userid', async (req, res, next) => {
     //hämta en användares alla maskiner
     let machines = machinserv.Get();
     res.send(machines);
 })
 
-router.get('/info/:id', async (req, res, next) => {
+router.get('/info/:userid/:id', async (req, res, next) => {
     //hämta information om en användares maskin
     let machine = machinserv.GetOneMachine(req.params.id);
     res.send(machine);
@@ -25,15 +25,15 @@ router.post('/add', authed.CheckLoggedInUser, async (req, res, next) => {
     res.send(reg);
 })
 
-router.put('/update/:id', async (req, res, next) => {
-    let updated = await machineserv.Update(req.params.id, req.body);
+router.put('/update/:userid', async (req, res, next) => {
+    let updated = await machineserv.Update(req.params.userid, req.body);
     res.send(updated);
     //update info on machine
 })
 
-router.delete('/delete/:id', async (req, res, next) => {
+router.delete('/delete/:userid', async (req, res, next) => {
     //delete a machine
-    let deleted = await machineserv.Delete(req.params.id, req.body);
+    let deleted = await machineserv.Delete(req.params.userid, req.body);
     res.send(deleted);
 })
 

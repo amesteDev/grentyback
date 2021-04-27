@@ -73,7 +73,7 @@ class AuthServ {
       
         if (!token) return { type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' };
         const user = await User.findOne({ _id: token._userId });
-        console.log(user);
+    
         if (!user) return { msg: 'We were unable to find a user for this token.' };
         if (user.isVerified) return { type: 'already-verified', msg: 'This user has already been verified.' };
 

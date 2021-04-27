@@ -1,15 +1,21 @@
 const express = require("express");
 const router = express.Router();
+const authed = require("../middleware/authreq");
 
-//skicka förfrågan om att hyra
+router.post('/request/send', authed.CheckLoggedInUser, async (req, res, next) => {
+    //skicka förfrågan om att hyra
+})
 
-//besvara förfrågan & skicka avtal
+router.post('/request/answer', authed.CheckLoggedInUser, async (req, res, next) => {
+    //skicka svaret på en förfrågan
+})
 
-//signa avtal
+router.put('/complete', authed.CheckLoggedInUser, async (req, res, next) => {
+    //markera en uthyrning som slutförd och betald
+})
 
-//betala? & bekräfta återlämning
-
-
-
+router.post('/ref', authed.CheckLoggedInUser, async (req, res, next) => {
+    //ge betyg på den man hyrt av eller den man hyrt ut till
+})
 
 module.exports = router;
