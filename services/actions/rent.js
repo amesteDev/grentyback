@@ -15,19 +15,22 @@ class RentServ {
             throw new Error('Bad owner');
         }
 
-
-
+        
     }
 
     async AcceptRent(user, requestId){
     
     }
 
-    async DeclineRent(){
+    async DeclineRent(user, requestId){
 
     }
 
-    async CompleteRent() {
+    async CompleteRent(user, rentId) {
+
+    }
+
+    async AddScore(user, rentId){
 
     }
 
