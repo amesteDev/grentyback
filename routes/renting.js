@@ -8,18 +8,18 @@ const accesserv = new AccessServ();
 
 router.post('/request/send', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //skicka förfrågan om att hyra
-    rentserv.RequestRent(req.user, ownerOfMachine, machine);
+    await rentserv.RequestRent(req.user, ownerOfMachine, machine);
     
 })
 
 router.post('/request/answer', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //skicka svaret på en förfrågan
     if(req.body.answer === 'decline'){
-        rentserv.DeclineRent(req.user, req.body.requestId);
+        await rentserv.DeclineRent(req.user, req.body.requestId);
     }
-    
+
     if(req.body.anser === 'accept'){
-        rentserv.AcceptRent(req.user, req.body.requestId);
+        await rentserv.AcceptRent(req.user, req.body.requestId);
     }
    
 })
