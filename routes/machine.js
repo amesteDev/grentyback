@@ -6,13 +6,13 @@ const MachineServ  = require("../services/machine/machineAdmin");
 const machinserv = new MachineServ();
 const accesserv = new AccessServ();
 
-router.get('/info/:userid', async (req, res, next) => {
+router.get('/info/', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //hämta en användares alla maskiner
     let machines = machinserv.Get();
     res.send(machines);
 })
 
-router.get('/info/:userid/:id', async (req, res, next) => {
+router.get('/info/:id', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //hämta information om en användares maskin
     let machine = machinserv.GetOneMachine(req.params.id);
     res.send(machine);

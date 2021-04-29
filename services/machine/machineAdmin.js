@@ -39,12 +39,20 @@ class MachineServ {
         return currentUser;
     }
 
-    async GetMyMachine() {
-
+    async GetMyMachine(user) {
+        let currentUser = await userModel.findById(user._id);
+        if(!currentUser){
+            throw new Error('Bad user');
+        }
+        return currentUser.machines;
     }
 
-    async GetOneMachine(id) {
-        
+    async GetOneMachine(user, machineId) {
+        let currentUser = await userModel.findById(user._id);
+        if(!currentUser){
+            throw new Error('Bad user');
+        }
+        return currentUser.machines.id(machineId);
     }
 
     async GetOtherMachine(){
