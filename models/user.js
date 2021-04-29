@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const MachineSchema = require('./machine').schema;
+const myRentsSchema = require('./myRents').schema;
 
 const UserSchema = new mongoose.Schema({
     email: {
@@ -34,7 +35,11 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    myRents: [myRentsSchema],
     machines: [MachineSchema],
+    ratings: {
+        type: Array
+    },
     username: {
         type: String
     }

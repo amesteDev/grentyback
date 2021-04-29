@@ -1,4 +1,4 @@
-const userModel = require('../../models/user');s
+const userModel = require('../../models/user');
 
 class RentServ {
 
@@ -14,12 +14,11 @@ class RentServ {
         if(!owner){
             throw new Error('Bad owner');
         }
-
         
     }
 
     async AcceptRent(user, requestId){
-    
+        
     }
 
     async DeclineRent(user, requestId){
