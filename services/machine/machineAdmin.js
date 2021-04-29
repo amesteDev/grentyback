@@ -1,6 +1,5 @@
 const userModel = require('../../models/user');
 
-
 class MachineServ {
 
     async Add(user, machineData) {
@@ -56,7 +55,7 @@ class MachineServ {
     }
 
     async GetOtherMachine(){
-
+        
     }
 
     async GetOtherMachineSpecific(id){

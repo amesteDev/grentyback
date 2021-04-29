@@ -8,13 +8,13 @@ const accesserv = new AccessServ();
 
 router.get('/info/', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //hämta en användares alla maskiner
-    let machines = machinserv.Get();
+    let machines = machinserv.Get(req.user);
     res.send(machines);
 })
 
 router.get('/info/:id', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //hämta information om en användares maskin
-    let machine = machinserv.GetOneMachine(req.params.id);
+    let machine = machinserv.GetOneMachine(req.user, req.params.id);
     res.send(machine);
 })
 
