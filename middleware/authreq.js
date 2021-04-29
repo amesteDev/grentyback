@@ -1,16 +1,20 @@
 const jwt = require('jsonwebtoken');
 
 class AccessServ {
-
-    async CheckLoggedInUser() {
-        //check that the JWT provided is real and valid
-        jwt.verify(req.headers, process.env.PK, (err, verified) => {
-            if(err){
-                return err.message;
-            } else {
-                return verified;
-            }
-        })
+    async CheckLoggedInUser (req, res, next) {
+        const authHeader = req.headers.authorization;
+        if (authHeader) {
+            const token = authHeader.split(' ')[1];
+            jwt.verify(token, process.env.PK, (err, user) => {
+                if (err) {
+                    return res.sendStatus(403);
+                }
+                req.user = user;
+                next();
+            });
+        } else {
+            res.sendStatus(401);
+        }
     }
 }
 

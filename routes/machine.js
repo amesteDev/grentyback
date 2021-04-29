@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const authed = require("../middleware/authreq");
+const AccessServ = require("../middleware/authreq");
 const MachineServ  = require("../services/machine/machineAdmin");
 
 const machinserv = new MachineServ();
+const accesserv = new AccessServ();
 
 router.get('/info/:userid', async (req, res, next) => {
     //hämta en användares alla maskiner
@@ -17,23 +18,23 @@ router.get('/info/:userid/:id', async (req, res, next) => {
     res.send(machine);
 })
 
-router.post('/add', authed.CheckLoggedInUser, async (req, res, next) => {
+router.post('/add', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //add new machine
     //check if user is authed first also needs to send the user._id
     //to be sure that the machine is saved to the right document.
-    let reg = await machinserv.Add(req.body);
+    let reg = await machinserv.Add(req.user, req.body);
     res.send(reg);
 })
 
-router.put('/update/:userid', async (req, res, next) => {
-    let updated = await machineserv.Update(req.params.userid, req.body);
+router.put('/update/', accesserv.CheckLoggedInUser, async (req, res, next) => {
+    let updated = await machinserv.Update(req.user, req.body);
     res.send(updated);
     //update info on machine
 })
 
-router.delete('/delete/:userid', async (req, res, next) => {
+router.delete('/delete/', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //delete a machine
-    let deleted = await machineserv.Delete(req.params.userid, req.body);
+    let deleted = await machinserv.Delete(req.user, req.body);
     res.send(deleted);
 })
 
