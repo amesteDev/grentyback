@@ -8,8 +8,8 @@ const accesserv = new AccessServ();
 
 router.post('/request/send', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //skicka förfrågan om att hyra
-    await rentserv.RequestRent(req.user, req.body.ownerOfMachine, req.body.machine);
-    
+    let renting = await rentserv.RequestRent(req.user, req.body);
+    res.send(renting);
 })
 
 router.post('/request/answer', accesserv.CheckLoggedInUser, async (req, res, next) => {

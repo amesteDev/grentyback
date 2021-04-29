@@ -51,7 +51,7 @@ class MachineServ {
         if(!currentUser){
             throw new Error('Bad user');
         }
-        return currentUser.machines.id(machineId);
+        return  ;
     }
 
     async GetOtherMachine(){

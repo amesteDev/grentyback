@@ -12,6 +12,9 @@ const myRentSchema = new mongoose.Schema({
     date: {
         Type: Date
     },
+    status: {
+        Type: String
+    },
     rating:{
         Type: Number
     },
