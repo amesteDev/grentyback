@@ -18,7 +18,7 @@ router.post('/request/answer', accesserv.CheckLoggedInUser, async (req, res, nex
         await rentserv.DeclineRent(req.user, req.body.requestId);
     }
 
-    if(req.body.anser === 'accept'){
+    if(req.body.answer === 'accept'){
         await rentserv.AcceptRent(req.user, req.body.requestId);
     }
    

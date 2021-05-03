@@ -14,6 +14,7 @@ class RentServ {
         if(!owner){
             throw new Error('Bad owner');
         }
+        //skapa ett nytt schema för varje uthyrning och koppla det med user._id samt lagra _id från uthyrningnen i varje användare istället.
         rentData.status = 'requested';
         rentData.renter = user;
         rentData.owner = owner;
@@ -24,27 +25,15 @@ class RentServ {
         currentUser.save();
         owner.markModified('machines');
         owner.save();
+        //den lagarar förfrågan nu, men också massa blajdata, fixa det.
         return { owner };
-
-
-
-        /*
-        await owner.machines.id(rentData.ownerOfMachine).rentings.push(rentData);
-        let values = {'myRents' : user.myRents};
-        return values;
-
-
-
-        currentUser.machines.id(machineData._id).description = machineData.description;
-        currentUser.machines.id(machineData._id).price = machineData.price;
-        currentUser.machines.id(machineData._id).img = machineData.img;
-        currentUser.machines.id(machineData._id).machineName = machineData.machineName;
-        currentUser.markModified('machines'); 
-        currentUser.save();
-        */
     }
 
     async AcceptRent(user, requestId){
+        let currentUser = await userModel.findById(user._id);
+        if(!currentUser){
+            throw new Error('Bad user');
+        }
         
     }
 

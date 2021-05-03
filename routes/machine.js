@@ -6,6 +6,9 @@ const MachineServ  = require("../services/machine/machineAdmin");
 const machinserv = new MachineServ();
 const accesserv = new AccessServ();
 
+//vet inte om det ska ligga här, men är det en idé att använda geojson:
+//https://docs.mongodb.com/manual/tutorial/geospatial-tutorial/
+
 router.get('/info/', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //hämta en användares alla maskiner
     let machines = machinserv.Get(req.user);
