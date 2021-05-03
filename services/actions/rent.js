@@ -37,24 +37,48 @@ class RentServ {
         return { rentToSave };
     }
 
-    async AcceptRent(user, requestId) {
-        let currentUser = await userModel.findById(user._id);
-        if (!currentUser) {
-            throw new Error('Bad user');
+    async AcceptRent(user, rentId) {
+        let currentRentRequest = await rentModel.findById(rentId);
+        if (!currentRentRequest) {
+            throw new Error('No such rent found');
         }
+
+        currentRentRequest.acceptanceStatus = 'accepted';
+        currentRentRequest.markModified();
+        currentRentRequest.save();
+
+        //skicka något meddelande i chatten att den är accepterad.
 
     }
 
-    async DeclineRent(user, requestId) {
+    async DeclineRent(user, rentId) {
+        let currentRentRequest = await rentModel.findById(rentId);
+        if (!currentRentRequest) {
+            throw new Error('No such rent found');
+        }
 
+        currentRentRequest.acceptanceStatus = 'declined';
+        currentRentRequest.markModified();
+        currentRentRequest.save();
+        //skicka något meddelande i chatten att den är declined.
     }
 
     async CompleteRent(user, rentId) {
         //mark the status as complete in the schema
+        let currentRentRequest = await rentModel.findById(rentId);
+        if (!currentRentRequest) {
+            throw new Error('No such rent found');
+        }
+
+        currentRentRequest.acceptanceStatus = 'completed';
+        currentRentRequest.markModified();
+        currentRentRequest.save();
     }
 
     async AddScore(user, rentId) {
-
+        //den här kräver en del tanke om hur det ska gå till?
+        //lyfta ut det helt till profil-route istället?
+        //typ att det i ovan när det är "completed" så görs någon signal om att betygsätta varandra
     }
 
 }
