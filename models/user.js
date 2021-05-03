@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const MachineSchema = require('./machine').schema;
-const myRentsSchema = require('./myRents').schema;
 
 const UserSchema = new mongoose.Schema({
     email: {
