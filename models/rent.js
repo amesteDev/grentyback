@@ -9,8 +9,13 @@ const RentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    machine: {
+        type: String,
+        required: true
+    },
     date: {
-        Type: Date
+        Type: Date,
+        required: true
     },
     status: {
         Type: String
