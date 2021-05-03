@@ -13,17 +13,19 @@ const RentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    date: {
-        Type: Date
+    acceptanceStatus: {
+        type: String,
+        required: true
     },
-    status: {
-        Type: String
+    rentDate: {
+        type: Date,
+        required: true
     },
     rating: {
-        Type: Number
+        type: Number
     },
     comment: {
-        Type: String
+        type: String
     }
 });
 

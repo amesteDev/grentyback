@@ -10,22 +10,19 @@ class RentServ {
         if (!currentUser) {
             throw new Error('Bad user');
         }
-        let owner = await userModel.findById(rentData.ownerOfMachine);
+        
+        let owner = await userModel.findById(rentData.owner);
         if (!owner) {
             throw new Error('Bad owner');
         }
-
-        rentData.status = 'requested';
-        rentData.renter = user;
-        rentData.owner = owner;
-        rentData.date = req.body.date;
-        rentData.rating = null;
-        rentData.comment = null;
-
+       
+        rentData.acceptanceStatus = 'requested';
+        rentData.renter = user._id;
+      
         const rentToSave = await rentModel.create({
-            ...rentData
+            ...rentData,
         });
-
+     
         if (!rentToSave) {
             throw new Error('Something went wrong');
         }

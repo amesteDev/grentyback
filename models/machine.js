@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const RentSchema = require('./rent').schema;
 
 const MachineSchema = new mongoose.Schema({
     machineName: {
@@ -16,8 +15,7 @@ const MachineSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: true
-    },
-    rentings: [RentSchema]
+    }
 });
 
 const Machine = mongoose.model("machine", MachineSchema);
