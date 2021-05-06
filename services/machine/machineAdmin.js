@@ -1,10 +1,11 @@
+const { isValidObjectId } = require('mongoose');
 const userModel = require('../../models/user');
 
 class MachineServ {
 
     async Add(user, machineData) {
         let currentUser = await userModel.findById(user._id);
-        if(!currentUser){
+        if (!currentUser) {
             throw new Error('Bad user');
         }
         currentUser.machines.push(machineData);
@@ -15,32 +16,32 @@ class MachineServ {
 
     async Update(user, machineData) {
         let currentUser = await userModel.findById(user._id);
-        if(!currentUser){
+        if (!currentUser) {
             throw new Error('Bad user');
         }
         currentUser.machines.id(machineData._id).description = machineData.description;
         currentUser.machines.id(machineData._id).price = machineData.price;
         currentUser.machines.id(machineData._id).img = machineData.img;
         currentUser.machines.id(machineData._id).machineName = machineData.machineName;
-        currentUser.markModified('machines'); 
+        currentUser.markModified('machines');
         currentUser.save();
         return currentUser;
     }
 
     async Delete(user, machineData) {
         let currentUser = await userModel.findById(user._id);
-        if(!currentUser){
+        if (!currentUser) {
             throw new Error('Bad user');
         }
         currentUser.machines.id(machineData._id).remove();
-        currentUser.markModified('machines'); 
+        currentUser.markModified('machines');
         currentUser.save();
         return currentUser;
     }
 
     async GetMyMachine(user) {
         let currentUser = await userModel.findById(user._id);
-        if(!currentUser){
+        if (!currentUser) {
             throw new Error('Bad user');
         }
         return currentUser.machines;
@@ -48,17 +49,17 @@ class MachineServ {
 
     async GetOneMachine(user, machineId) {
         let currentUser = await userModel.findById(user._id);
-        if(!currentUser){
+        if (!currentUser) {
             throw new Error('Bad user');
         }
-        return  ;
+        return currentUser.machines.id(machineId);
     }
 
-    async GetOtherMachine(){
-        
+    async GetOtherMachine() {
+
     }
 
-    async GetOtherMachineSpecific(id){
+    async GetOtherMachineSpecific(id) {
 
     }
 }

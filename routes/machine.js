@@ -11,20 +11,17 @@ const accesserv = new AccessServ();
 
 router.get('/info/', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //hämta en användares alla maskiner
-    let machines = machinserv.Get(req.user);
+    let machines = await machinserv.GetMyMachine(req.user);
     res.send(machines);
 })
 
 router.get('/info/:id', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //hämta information om en användares maskin
-    let machine = machinserv.GetOneMachine(req.user, req.params.id);
+    let machine = await machinserv.GetOneMachine(req.user, req.params.id);
     res.send(machine);
 })
 
 router.post('/add', accesserv.CheckLoggedInUser, async (req, res, next) => {
-    //add new machine
-    //check if user is authed first also needs to send the user._id
-    //to be sure that the machine is saved to the right document.
     let reg = await machinserv.Add(req.user, req.body);
     res.send(reg);
 })
