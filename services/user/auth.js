@@ -78,6 +78,8 @@ class AuthServ {
         if (user.isVerified) return { type: 'already-verified', msg: 'This user has already been verified.' };
 
         user.isVerified = true;
+        user.markModified('machines');
+        user.save();
         return { msg: "The account has been verified. Please log in." };
     }
 

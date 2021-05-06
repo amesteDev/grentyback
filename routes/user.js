@@ -29,6 +29,7 @@ router.post('/login',
 
 router.post('/activate/:id',
     async (req, res, next) => {
+        console.log(req.params.id);
         try {
             let activated = await authserv.Activate(req.params.id);
             console.log(activated);
