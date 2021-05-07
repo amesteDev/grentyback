@@ -47,12 +47,8 @@ class AuthServ {
 
     async Login(email, password) {
         const userRecord = await userModel.findOne({ email });
-        if (!userRecord) {
-            throw new Error('User not registered');
-        }
-        if (!userRecord.isVerified) {
-            throw new Error('User not verified');
-        }
+        if (!userRecord) return { err: 'no-user', msg: 'Ingen användare hittat med den e-postadressen'};
+        if (!userRecord.isVerified) return { err: 'not-verified', msg: 'Användaren är inte aktiverad, kolla din e-post efter aktiveringslänken.' };
 
         const validPassword = await bcrypt.compare(password, userRecord.password);
 
@@ -64,7 +60,7 @@ class AuthServ {
 
             return { user, token };
         } else {
-            throw new Error('Invalid Password');
+            return { err: 'password', msg: 'Fel lösenord.'};
         }
     }
 
