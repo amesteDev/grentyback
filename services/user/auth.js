@@ -71,29 +71,30 @@ class AuthServ {
     async Activate(activationToken) {
         const token = await Token.findOne({ token: activationToken });
       
-        if (!token) return { type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' };
+        if (!token) return { err: 'no-token', msg: 'Aktiveringslänken verkar ha gått ut.' };
         const user = await User.findOne({ _id: token._userId });
     
-        if (!user) return { msg: 'We were unable to find a user for this token.' };
-        if (user.isVerified) return { type: 'already-verified', msg: 'This user has already been verified.' };
+        if (!user) return { err: 'no-user', msg: 'Ingen användare hittad som matchar.' };
+        if (user.isVerified) return { err: 'verified', msg: 'Användaren är redan aktiverad.' };
 
         user.isVerified = true;
         user.markModified('machines');
         user.save();
-        return { msg: "The account has been verified. Please log in." };
+        return { msg: "Användaren är nu verifierad, prova att logga in." };
     }
 
     async ResendToken(user) {
-        const userRecord = await User.findOne({ email: user.email });
-        if(!user) return {msg: 'No user found'};
-
+        const userRecord = await User.findOne({ email: user });
+        if(!user) return {err: 'no-user', msg: 'Ingen användare med den e-postadressen finns registrerad'};
+        if(user.isVerified === true) return {err: 'verified', msg: 'Användaren är redan verifierad, prova att logga in.'}
         const token = new Token({ _userId: userRecord._id, token: this.generateToken(userRecord) });
         token.save((err) => {
             if (err) { return res.status(500).send({ msg: err.message }); }
         })
 
         const sendmail = new sendMail();
-        await sendmail.WelcomeMail(user.email, token.token);
+        await sendmail.WelcomeMail(user, token.token);
+        return {msg: 'Ny länk skickad, kolla din e-post om några minuter.'};
     }
 
 

@@ -39,7 +39,8 @@ router.post('/activate/:id',
     })
 
 
-    router.post('activate/resend', async (req, res, next) => {
+    router.post('/resend', async (req, res, next) => {
+        console.log(req.body);
         try {
             let resend = await authserv.ResendToken(req.body.email);
             res.send(resend);
