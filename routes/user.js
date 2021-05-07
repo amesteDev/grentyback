@@ -29,11 +29,20 @@ router.post('/login',
 
 router.post('/activate/:id',
     async (req, res, next) => {
-        console.log(req.params.id);
         try {
             let activated = await authserv.Activate(req.params.id);
             console.log(activated);
             res.send(activated);
+        } catch (e) {
+            return next(e);
+        }
+    })
+
+
+    router.post('activate/resend', async (req, res, next) => {
+        try {
+            let resend = await authserv.ResendToken(req.body.email);
+            res.send(resend);
         } catch (e) {
             return next(e);
         }
