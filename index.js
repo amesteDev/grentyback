@@ -13,6 +13,7 @@ const user = require('./routes/user.js');
 const machine = require('./routes/machine');
 const renting = require('./routes/renting');
 const profile = require('./routes/profile');
+const mail = require('./routes/contactmail');
 
 app.use(cors());
 //connect to mongodb

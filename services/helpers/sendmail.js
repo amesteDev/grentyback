@@ -20,7 +20,7 @@ class mailSender {
         Vänligen
         Teamet på grenty.se
         `
-        
+
         const mailOptions = {
             from: 'no-reply@grenty.se',
             to: email,
@@ -28,7 +28,24 @@ class mailSender {
             text: textToSend
         }
 
-        //det här är bara låtsaskod
+
+        this.transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error)
+            } else {
+                console.log('Email sent: ' + info.response)
+            }
+        })
+    }
+
+    async ContactMail(contactFormData) {
+        const msg = contactFormData.msg;
+        const mailOption = {
+            from: contactFormData.email,
+            to: 'info@grenty.se',
+            subject: 'Kontaktformulär på grenty.se',
+            text: msg
+        }
         this.transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log(error)
