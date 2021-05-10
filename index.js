@@ -25,6 +25,7 @@ app.use('/user', user);
 app.use('/profile', profile);
 app.use('/machine', machine);
 app.use('/renting', renting);
+app.use('/contactmail', mail);
 
 const PORT = process.env.PORT || 3000;
 http.listen(PORT, () => { console.log('Server is running on: ' + PORT) });

@@ -40,12 +40,14 @@ class mailSender {
 
     async ContactMail(contactFormData) {
         const msg = contactFormData.msg;
-        const mailOption = {
+
+        const mailOptions = {
             from: contactFormData.email,
             to: 'info@grenty.se',
             subject: 'Kontaktformulär på grenty.se',
             text: msg
         }
+        
         this.transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log(error)
