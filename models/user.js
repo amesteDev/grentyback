@@ -34,6 +34,14 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    lan: {
+        type: String,
+        required: true
+    },
+    kommun: {
+        type: String,
+        required: true
+    },
     myRents: [],
     machines: [MachineSchema],
     ratings: {
