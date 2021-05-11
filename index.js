@@ -14,6 +14,7 @@ const machine = require('./routes/machine');
 const renting = require('./routes/renting');
 const profile = require('./routes/profile');
 const mail = require('./routes/contactmail');
+const search = require('./routes/search');
 
 app.use(cors());
 //connect to mongodb
@@ -26,6 +27,7 @@ app.use('/profile', profile);
 app.use('/machine', machine);
 app.use('/renting', renting);
 app.use('/contactmail', mail);
+app.use('/search', search)
 
 const PORT = process.env.PORT || 3000;
 http.listen(PORT, () => { console.log('Server is running on: ' + PORT) });

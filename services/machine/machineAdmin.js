@@ -1,4 +1,3 @@
-const { isValidObjectId } = require('mongoose');
 const userModel = require('../../models/user');
 
 class MachineServ {
