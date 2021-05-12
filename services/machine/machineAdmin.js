@@ -54,8 +54,12 @@ class MachineServ {
         return currentUser.machines.id(machineId);
     }
 
-    async GetOtherMachine() {
-
+    async GetOtherMachine(user, machine) {
+        let currentUser = await userModel.findById(user);
+        if (!currentUser) {
+            throw new Error('Bad user');
+        }
+        return {'owner': user, 'machine': currentUser.machines.id(machine)}
     }
 
     async GetOtherMachineSpecific(id) {

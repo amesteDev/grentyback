@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const AccessServ = require("../middleware/authreq");
-const MachineServ  = require("../services/machine/machineAdmin");
+const MachineServ = require("../services/machine/machineAdmin");
 
 const machinserv = new MachineServ();
 const accesserv = new AccessServ();
@@ -18,6 +18,11 @@ router.get('/info/', accesserv.CheckLoggedInUser, async (req, res, next) => {
 router.get('/info/:id', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //hämta information om en användares maskin
     let machine = await machinserv.GetOneMachine(req.user, req.params.id);
+    res.send(machine);
+})
+
+router.get('/checkMachine/:user/:machine', async (req, res, next) => {
+    let machine = await machinserv.GetOtherMachine(req.params.user, req.params.machine);
     res.send(machine);
 })
 
@@ -38,4 +43,4 @@ router.delete('/delete/', accesserv.CheckLoggedInUser, async (req, res, next) =>
     res.send(deleted);
 })
 
-module.exports = router; 
+module.exports = router;
