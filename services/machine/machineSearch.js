@@ -12,6 +12,10 @@ class searchServ {
       
         for(const [index, user] of usersFound.entries()){
             let owner = {'_id': user._id};
+            owner.name = user.name;
+            owner.adress = user.adress;
+            owner.zip = user.zip;
+            owner.city = user.city;
             owner.machines = user.machines;
             let title = 'user' + index;
             searchResults[title] = owner;
