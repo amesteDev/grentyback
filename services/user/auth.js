@@ -13,7 +13,8 @@ class AuthServ {
             let email = userData.email;
             const isAlreadyRegged = await userModel.findOne({ email });
             if (isAlreadyRegged) {
-                throw new Error('User already registered')
+                return {err: 'already-regged', msg: 'En användare finns redan med den angivna e-postadressen'}
+                
             }
 
             //now actually perform the registerprocess
@@ -31,7 +32,7 @@ class AuthServ {
             })
 
             if (!userRecord) {
-                throw new Error('User cannot be created');
+                return {err: 'rand-err', msg: 'Något gick fel, försök igen senare'}
             }
 
             const sendmail = new sendMail();
@@ -39,7 +40,7 @@ class AuthServ {
 
             const user = userRecord.toObject();
             Reflect.deleteProperty(user, 'password');
-            return { user };
+            return { status: 'Succes', msg: 'Ny användare skapad.' };
         } catch (e) {
             throw e;
         }
@@ -47,7 +48,7 @@ class AuthServ {
 
     async Login(email, password) {
         const userRecord = await userModel.findOne({ email });
-        if (!userRecord) return { err: 'no-user', msg: 'Ingen användare hittat med den e-postadressen'};
+        if (!userRecord) return { err: 'no-user', msg: 'Ingen användare hittat med den e-postadressen' };
         if (!userRecord.isVerified) return { err: 'not-verified', msg: 'Användaren är inte aktiverad, kolla din e-post efter aktiveringslänken.' };
 
         const validPassword = await bcrypt.compare(password, userRecord.password);
@@ -58,18 +59,18 @@ class AuthServ {
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/deleteProperty
             Reflect.deleteProperty(user, 'password');
 
-            return { user, token };
+            return { token };
         } else {
-            return { err: 'password', msg: 'Fel lösenord.'};
+            return { err: 'password', msg: 'Fel lösenord.' };
         }
     }
 
     async Activate(activationToken) {
         const token = await Token.findOne({ token: activationToken });
-      
+
         if (!token) return { err: 'no-token', msg: 'Aktiveringslänken verkar ha gått ut.' };
         const user = await User.findOne({ _id: token._userId });
-    
+
         if (!user) return { err: 'no-user', msg: 'Ingen användare hittad som matchar.' };
         if (user.isVerified) return { err: 'verified', msg: 'Användaren är redan aktiverad.' };
 
@@ -81,8 +82,8 @@ class AuthServ {
 
     async ResendToken(user) {
         const userRecord = await User.findOne({ email: user });
-        if(!user) return {err: 'no-user', msg: 'Ingen användare med den e-postadressen finns registrerad'};
-        if(user.isVerified === true) return {err: 'verified', msg: 'Användaren är redan verifierad, prova att logga in.'}
+        if (!user) return { err: 'no-user', msg: 'Ingen användare med den e-postadressen finns registrerad' };
+        if (user.isVerified === true) return { err: 'verified', msg: 'Användaren är redan verifierad, prova att logga in.' }
         const token = new Token({ _userId: userRecord._id, token: this.generateToken(userRecord) });
         token.save((err) => {
             if (err) { return res.status(500).send({ msg: err.message }); }
@@ -90,7 +91,7 @@ class AuthServ {
 
         const sendmail = new sendMail();
         await sendmail.WelcomeMail(user, token.token);
-        return {msg: 'Ny länk skickad, kolla din e-post om några minuter.'};
+        return { msg: 'Ny länk skickad, kolla din e-post om några minuter.' };
     }
 
 
@@ -101,9 +102,10 @@ class AuthServ {
 
         return jwt.sign(
             {
+                iss: 'grenty.se',
                 _id: user._id,
                 name: user.username,
-                exp: exp.getTime() / 1000,
+                exp: Math.floor(Date.now() / 1000) + (60 * 60)
             },
             process.env.PK
         );

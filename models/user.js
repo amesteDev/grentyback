@@ -46,9 +46,6 @@ const UserSchema = new mongoose.Schema({
     machines: [MachineSchema],
     ratings: {
         type: Array
-    },
-    username: {
-        type: String
     }
 }, {
     collection: 'users'
