@@ -76,6 +76,8 @@ class RentServ {
     }
 
     async AddScore(user, rentId) {
+
+        
         //den här kräver en del tanke om hur det ska gå till?
         //lyfta ut det helt till profil-route istället?
         //typ att det i ovan när det är "completed" så görs någon signal om att betygsätta varandra
