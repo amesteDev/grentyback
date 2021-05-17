@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const MachineSchema = require('./machine').schema;
 
 const UserSchema = new mongoose.Schema({
-    email: {
+    username: {
         type: String,
         required: true,
         unique: true
@@ -37,6 +37,12 @@ const UserSchema = new mongoose.Schema({
     lan: {
         type: String,
         required: true
+    },
+    latitude: {
+        type: String
+    },
+    longitude: {
+        type: String
     },
     kommun: {
         type: String,

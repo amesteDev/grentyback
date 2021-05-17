@@ -5,13 +5,15 @@ const userModel = require('../../models/user');
 const sendMail = require('../helpers/sendmail');
 const Token = require('../../models/token');
 const User = require('../../models/user');
+const CordinateServ = require('../../middleware/storeCordinates');
 
 class AuthServ {
     async Register(userData) {
+        const storeCordinates = new CordinateServ();
         try {
             //kolla så inte e-post finns reggad redan må fixa så den kommer åt email bara
-            let email = userData.email;
-            const isAlreadyRegged = await userModel.findOne({ email });
+            let username = userData.username;
+            const isAlreadyRegged = await userModel.findOne({ username });
             if (isAlreadyRegged) {
                 return {err: 'already-regged', msg: 'En användare finns redan med den angivna e-postadressen'}
                 
@@ -20,11 +22,15 @@ class AuthServ {
             //now actually perform the registerprocess
             const saltRounds = 10;
             const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
-
+            const cons = await storeCordinates.save(userData.adress, userData.city)
+            
             const userRecord = await userModel.create({
                 ...userData,
+                ...cons,
                 password: hashedPassword,
             });
+
+            
 
             const token = new Token({ _userId: userRecord._id, token: this.generateToken(userRecord) });
             token.save((err) => {
@@ -35,8 +41,9 @@ class AuthServ {
                 return {err: 'rand-err', msg: 'Något gick fel, försök igen senare'}
             }
 
+        
             const sendmail = new sendMail();
-            await sendmail.WelcomeMail(userRecord.email, token.token);
+            await sendmail.WelcomeMail(userRecord.username, token.token);
 
             const user = userRecord.toObject();
             Reflect.deleteProperty(user, 'password');
@@ -46,8 +53,8 @@ class AuthServ {
         }
     }
 
-    async Login(email, password) {
-        const userRecord = await userModel.findOne({ email });
+    async Login(username, password) {
+        const userRecord = await userModel.findOne({ username });
         if (!userRecord) return { err: 'no-user', msg: 'Ingen användare hittat med den e-postadressen' };
         if (!userRecord.isVerified) return { err: 'not-verified', msg: 'Användaren är inte aktiverad, kolla din e-post efter aktiveringslänken.' };
 

@@ -21,7 +21,7 @@ router.get('/info/:id', accesserv.CheckLoggedInUser, async (req, res, next) => {
     res.send(machine);
 })
 
-router.get('/checkMachine/:user/:machine', async (req, res, next) => {
+router.get('/check/:user/:machine', async (req, res, next) => {
     let machine = await machinserv.GetOtherMachine(req.params.user, req.params.machine);
     res.send(machine);
 })
