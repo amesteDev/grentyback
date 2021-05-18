@@ -67,7 +67,7 @@ class AuthServ {
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/deleteProperty
             Reflect.deleteProperty(user, 'password');
 
-            return { token };
+            return { token, user };
         } else {
             return { err: 'password', msg: 'Fel lösenord.' };
         }
