@@ -53,8 +53,9 @@ class AuthServ {
         }
     }
 
-    async Login(username, password) {
-        const userRecord = await userModel.findOne({ username });
+    async Login(userName, password) {
+  
+        const userRecord = await userModel.findOne({ username: userName });
         if (!userRecord) return { err: 'no-user', msg: 'Ingen användare hittat med den e-postadressen' };
         if (!userRecord.isVerified) return { err: 'not-verified', msg: 'Användaren är inte aktiverad, kolla din e-post efter aktiveringslänken.' };
 

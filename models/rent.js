@@ -17,7 +17,11 @@ const RentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    rentDate: {
+    startDate: {
+        type: Date,
+        required: true
+    },
+    endDate: {
         type: Date,
         required: true
     },

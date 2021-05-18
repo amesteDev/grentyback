@@ -14,7 +14,7 @@ router.post('/login',
         //code for login her
         //send email and password to authserv.Login
         try {
-            let login = await authserv.Login(req.body.email, req.body.password);
+            let login = await authserv.Login(req.body.username, req.body.password);
             res.send(login)
         } catch (e) {
             return next(e);
@@ -25,7 +25,6 @@ router.post('/activate/:id',
     async (req, res, next) => {
         try {
             let activated = await authserv.Activate(req.params.id);
-            console.log(activated);
             res.send(activated);
         } catch (e) {
             return next(e);
@@ -34,7 +33,6 @@ router.post('/activate/:id',
 
 
     router.post('/resend', async (req, res, next) => {
-        console.log(req.body);
         try {
             let resend = await authserv.ResendToken(req.body.email);
             res.send(resend);
