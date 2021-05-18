@@ -5,15 +5,18 @@ class searchServ {
         let searchResults = [];
         //machines.0 för att se om det finns något på index 0 i arrayen, så den bara returnerar användare som stämmer med kommun och har maskiner.
         //$ne = NOT.
-        let usersFound = await userModel.find({ kommun: requestBody.kommun, '_id': { $ne: user }, 'machines.0': { $exists: true } }).exec();
-
+        let usersFound;
+        if(!requestBody.kommun){
+            usersFound = await userModel.find({ lan: requestBody.lan, '_id': { $ne: user }, 'machines.0': { $exists: true } }).exec();
+        } else {
+            usersFound = await userModel.find({ kommun: requestBody.kommun, '_id': { $ne: user }, 'machines.0': { $exists: true } }).exec();
+        }
+        console.log(usersFound)
         if (usersFound.length == 0) {
             return { err: 'no-users', msg: 'Inga maskiner funna i kommunen' };
         }
 
         for (const [index, user] of usersFound.entries()) {
-
-
             for (let i = 0; i < user.machines.length; i++) {
                 let curMach = user.machines[i]
                 let maskin = {};

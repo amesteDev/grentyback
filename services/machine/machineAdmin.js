@@ -47,7 +47,7 @@ class MachineServ {
     }
 
     async GetOneMachine(user, machineId) {
-        let currentUser = await userModel.findById(user._id);
+        let currentUser = await userModel.findById(user);
         if (!currentUser) {
             throw new Error('Bad user');
         }
