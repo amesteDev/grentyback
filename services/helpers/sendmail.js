@@ -20,7 +20,6 @@ class mailSender {
         Vänligen
         Teamet på grenty.se
         `
-
         const mailOptions = {
             from: 'no-reply@grenty.se',
             to: email,
@@ -28,12 +27,11 @@ class mailSender {
             text: textToSend
         }
 
-
         this.transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 return error
             } else {
-                return 'Email sent: ' + info.response 
+                return 'Email sent: ' + info.response
             }
         })
     }
@@ -47,7 +45,7 @@ class mailSender {
             subject: 'Kontaktformulär på grenty.se',
             text: msg
         }
-        
+
         this.transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log(error)
@@ -56,6 +54,68 @@ class mailSender {
             }
         })
     }
+
+    async newRequest(owner) {
+        const msg = 'Du har en ny förfrågan om att hyra en maskin, logga in på grenty.se för att tacka ja eller nej';
+
+        const mailOptions = {
+            from: 'rent@grenty.se',
+            to: owner.username,
+            subject: 'Hyresförfrågan',
+            text: msg
+        }
+
+        this.transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error)
+            } else {
+                console.log('Email sent: ' + info.response)
+            }
+        })
+    }
+
+
+    async acceptedRent(renter) {
+        const msg = 'Du har en accepterad hyresförfrågan, logga in på grenty.se för att se mer detaljer';
+
+        const mailOptions = {
+            from: 'rent@grenty.se',
+            to: renter.username,
+            subject: 'Svar på hyresförfrågan',
+            text: msg
+        }
+
+        this.transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error)
+            } else {
+                console.log('Email sent: ' + info.response)
+            }
+        })
+    }
+
+    async declineRent(renter) {
+        const msg = 'Ägaren av maskinen har tackat nej till din hyresförfrågan, logga in på grenty.se för att se mer detaljer';
+
+        const mailOptions = {
+            from: 'rent@grenty.se',
+            to: renter.username,
+            subject: 'Svar på hyresförfrågan',
+            text: msg
+        }
+
+        this.transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error)
+            } else {
+                console.log('Email sent: ' + info.response)
+            }
+        })
+    }
+
+
+
+
 }
 
 module.exports = mailSender;
