@@ -1,28 +1,26 @@
 const userModel = require('../../models/user');
 const rentModel = require('../../models/rent');
+
 class RentServ {
 
     async RequestRent(user, rentData) {
-        //må registrera som ett rent-schema för aktuell maskin, vilket innebär att jag behöver skicka med vilken maskin det gäller?
-        //kan göra det i body såklart.
-        //det som behövs är då maskinens ägare, vilken maskin och vem som ska hyra den, vilket/vilka datum. sen hämtas priset från maskinen.
         let currentUser = await userModel.findById(user);
         if (!currentUser) {
             throw new Error('Bad user');
         }
-        
+
         let owner = await userModel.findById(rentData.owner);
         if (!owner) {
             throw new Error('Bad owner');
         }
-       
+
         rentData.acceptanceStatus = 'requested';
         rentData.renter = user._id;
-      
+
         const rentToSave = await rentModel.create({
             ...rentData,
         });
-     
+
         if (!rentToSave) {
             throw new Error('Something went wrong');
         }
@@ -36,6 +34,15 @@ class RentServ {
 
         return { rentToSave };
     }
+
+    async fetchRents(user) {
+        let currentUser = await userModel.findById(user);
+        let rentIds = currentUser.myRents;
+        const rents = await rentModel.find({ '_id': { $in: rentIds } });
+
+        return rents;
+    }
+
 
     async AcceptRent(user, rentId) {
         let currentRentRequest = await rentModel.findById(rentId);
@@ -77,7 +84,7 @@ class RentServ {
 
     async AddScore(user, rentId) {
 
-        
+
         //den här kräver en del tanke om hur det ska gå till?
         //lyfta ut det helt till profil-route istället?
         //typ att det i ovan när det är "completed" så görs någon signal om att betygsätta varandra

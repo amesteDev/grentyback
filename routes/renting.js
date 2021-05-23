@@ -6,6 +6,12 @@ const RentServ = require("../services/actions/rent");
 const rentserv = new RentServ();
 const accesserv = new AccessServ();
 
+
+router.get('/myrents', accesserv.CheckLoggedInUser, async (req, res, next) => {
+    let rents = await rentserv.fetchRents(req.user);
+    res.send(rents);
+})
+
 router.post('/request/send', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //skicka förfrågan om att hyra
     let renting = await rentserv.RequestRent(req.user, req.body);

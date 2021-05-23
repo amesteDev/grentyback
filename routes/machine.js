@@ -10,7 +10,6 @@ const accesserv = new AccessServ();
 //https://docs.mongodb.com/manual/tutorial/geospatial-tutorial/
 
 router.get('/info/', accesserv.CheckLoggedInUser, async (req, res, next) => {
-    //hämta en användares alla maskiner
     let machines = await machinserv.GetMyMachine(req.user);
     res.send(machines);
 })

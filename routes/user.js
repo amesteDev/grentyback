@@ -11,8 +11,6 @@ router.post('/reg',
 
 router.post('/login',
     async (req, res, next) => {
-        //code for login her
-        //send email and password to authserv.Login
         try {
             let login = await authserv.Login(req.body.username, req.body.password);
             res.send(login)
