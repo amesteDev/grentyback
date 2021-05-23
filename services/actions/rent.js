@@ -35,17 +35,17 @@ class RentServ {
         return { rentToSave };
     }
 
+
     async fetchRents(user) {
         let currentUser = await userModel.findById(user);
         let rentIds = currentUser.myRents;
         const rents = await rentModel.find({ '_id': { $in: rentIds } });
-
         return rents;
     }
 
 
-    async AcceptRent(user, rentId) {
-        let currentRentRequest = await rentModel.findById(rentId);
+    async AcceptRent(rent) {
+        let currentRentRequest = await rentModel.findById(rent._id);
         if (!currentRentRequest) {
             throw new Error('No such rent found');
         }
@@ -54,12 +54,11 @@ class RentServ {
         currentRentRequest.markModified();
         currentRentRequest.save();
 
-        //skicka något meddelande i chatten att den är accepterad.
 
     }
 
-    async DeclineRent(user, rentId) {
-        let currentRentRequest = await rentModel.findById(rentId);
+    async DeclineRent(rent) {
+        let currentRentRequest = await rentModel.findById(rent._id);
         if (!currentRentRequest) {
             throw new Error('No such rent found');
         }

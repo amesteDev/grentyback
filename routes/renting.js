@@ -20,12 +20,12 @@ router.post('/request/send', accesserv.CheckLoggedInUser, async (req, res, next)
 
 router.post('/request/answer', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //skicka svaret på en förfrågan
-    if(req.body.answer === 'decline'){
-        await rentserv.DeclineRent(req.user, req.body.requestId);
+    if(req.body.answer === 'no'){
+        await rentserv.DeclineRent(req.body);
     }
 
-    if(req.body.answer === 'accept'){
-        await rentserv.AcceptRent(req.user, req.body.requestId);
+    if(req.body.answer === 'yes'){
+        await rentserv.AcceptRent(req.body);
     }
    
 })

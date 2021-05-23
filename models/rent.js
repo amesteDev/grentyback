@@ -13,6 +13,10 @@ const RentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    machineType: {
+        type: String,
+        required: true
+    },
     acceptanceStatus: {
         type: String,
         required: true
