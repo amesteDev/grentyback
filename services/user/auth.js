@@ -49,7 +49,7 @@ class AuthServ {
             Reflect.deleteProperty(user, 'password');
             return { status: 'Succes', msg: 'Ny användare skapad.' };
         } catch (e) {
-            throw e;
+            return  { err: 'no-user', msg: 'Något gick fel', errormsg: e } 
         }
     }
 

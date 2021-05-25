@@ -9,12 +9,12 @@ class RentServ {
     async RequestRent(user, rentData) {
         let currentUser = await userModel.findById(user);
         if (!currentUser) {
-            throw new Error('Bad user');
+            return  { err: 'no-user', msg: 'Något gick fel' } 
         }
 
         let owner = await userModel.findById(rentData.owner);
         if (!owner) {
-            throw new Error('Bad owner');
+            return  { err: 'no-owner', msg: 'Något gick fel' } 
         }
 
         rentData.acceptanceStatus = 'requested';
@@ -25,7 +25,7 @@ class RentServ {
         });
 
         if (!rentToSave) {
-            throw new Error('Something went wrong');
+            return  { err: 'no-save', msg: 'Något gick fel' } 
         }
 
         owner.myRents.push(rentToSave._id);
@@ -65,7 +65,7 @@ class RentServ {
             sendmail.acceptedRent(renter);
             return { msg: 'Svar skickat' }
         } else {
-            return { err: 'no-owener', msg: 'Du äger inte maskinen' }
+            return { err: 'no-owner', msg: 'Du äger inte maskinen' }
         }
 
 
@@ -78,7 +78,6 @@ class RentServ {
         if (!currentRentRequest) {
             throw new Error('No such rent found');
         }
-        console.log(currentRentRequest.owner, user._id);
         if (currentRentRequest.owner == user._id) {
             currentRentRequest.acceptanceStatus = 'declined';
             currentRentRequest.markModified();
@@ -98,7 +97,7 @@ class RentServ {
         //mark the status as complete in the schema
         let currentRentRequest = await rentModel.findById(rentId);
         if (!currentRentRequest) {
-            throw new Error('No such rent found');
+            return  { err: 'no-rent', msg: 'Något gick fel' } 
         }
 
         currentRentRequest.acceptanceStatus = 'completed';
@@ -106,13 +105,7 @@ class RentServ {
         currentRentRequest.save();
     }
 
-    async AddScore(user, rentId) {
 
-
-        //den här kräver en del tanke om hur det ska gå till?
-        //lyfta ut det helt till profil-route istället?
-        //typ att det i ovan när det är "completed" så görs någon signal om att betygsätta varandra
-    }
 
 }
 

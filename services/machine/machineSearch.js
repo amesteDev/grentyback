@@ -11,7 +11,6 @@ class searchServ {
         } else {
             usersFound = await userModel.find({ kommun: requestBody.kommun, '_id': { $ne: user }, 'machines.0': { $exists: true } }).exec();
         }
-        console.log(usersFound)
         if (usersFound.length == 0) {
             return { err: 'no-users', msg: 'Inga maskiner funna i kommunen' };
         }
@@ -35,7 +34,6 @@ class searchServ {
             }
 
         }
-        console.log(searchResults)
         return searchResults;
     }
 }

@@ -5,7 +5,8 @@ class MachineServ {
     async Add(user, machineData) {
         let currentUser = await userModel.findById(user._id);
         if (!currentUser) {
-            throw new Error('Bad user');
+            return  { err: 'no-user', msg: 'Något gick fel' } 
+            
         }
         currentUser.machines.push(machineData);
         currentUser.markModified('machines');
@@ -16,7 +17,8 @@ class MachineServ {
     async Update(user, machineData) {
         let currentUser = await userModel.findById(user._id);
         if (!currentUser) {
-            throw new Error('Bad user');
+            return  { err: 'no-user', msg: 'Något gick fel' } 
+         
         }
         currentUser.machines.id(machineData._id).description = machineData.description;
         currentUser.machines.id(machineData._id).price = machineData.price;
@@ -30,7 +32,8 @@ class MachineServ {
     async Delete(user, machineData) {
         let currentUser = await userModel.findById(user._id);
         if (!currentUser) {
-            throw new Error('Bad user');
+            return  { err: 'no-user', msg: 'Något gick fel' } 
+           
         }
         currentUser.machines.id(machineData._id).remove();
         currentUser.markModified('machines');
@@ -41,7 +44,8 @@ class MachineServ {
     async GetMyMachine(user) {
         let currentUser = await userModel.findById(user._id);
         if (!currentUser) {
-            throw new Error('Bad user');
+            return  { err: 'no-user', msg: 'Något gick fel' } 
+            
         }
         return currentUser.machines;
     }
@@ -49,7 +53,8 @@ class MachineServ {
     async GetOneMachine(user, machineId) {
         let currentUser = await userModel.findById(user);
         if (!currentUser) {
-            throw new Error('Bad user');
+            return  { err: 'no-user', msg: 'Något gick fel' } 
+           
         }
         return currentUser.machines.id(machineId);
     }
@@ -57,7 +62,7 @@ class MachineServ {
     async GetOtherMachine(user, machine) {
         let currentUser = await userModel.findById(user);
         if (!currentUser) {
-            throw new Error('Bad user');
+            return  { err: 'no-user', msg: 'Något gick fel' } 
         }
         return {'owner': user, 'machine': currentUser.machines.id(machine)}
     }
