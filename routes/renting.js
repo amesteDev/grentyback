@@ -33,14 +33,9 @@ router.post('/request/answer', accesserv.CheckLoggedInUser, async (req, res, nex
     res.send(rentAns)
 })
 
-router.put('/complete', accesserv.CheckLoggedInUser, async (req, res, next) => {
+router.post('/complete', accesserv.CheckLoggedInUser, async (req, res, next) => {
     //markera en uthyrning som slutförd och betald
     await rentserv.CompleteRent(req.user, req.body.rentId);
-})
-
-router.post('/ref', accesserv.CheckLoggedInUser, async (req, res, next) => {
-    //ge betyg på den man hyrt av eller den man hyrt ut till
-    await rentserv.AddScore(req.user, req.body.rentId);
 })
 
 module.exports = router;

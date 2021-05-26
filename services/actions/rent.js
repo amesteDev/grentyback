@@ -68,9 +68,6 @@ class RentServ {
             return { err: 'no-owner', msg: 'Du äger inte maskinen' }
         }
 
-
-
-
     }
 
     async DeclineRent(user, rent) {
