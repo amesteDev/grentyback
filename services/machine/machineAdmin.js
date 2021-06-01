@@ -11,7 +11,7 @@ class MachineServ {
         currentUser.machines.push(machineData);
         currentUser.markModified('machines');
         currentUser.save();
-        return currentUser;
+        return {msg: 'Lagring lyckad!'};
     }
 
     async Update(user, machineData) {
