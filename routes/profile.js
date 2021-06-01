@@ -7,10 +7,13 @@ const profserv = new profileServ();
 const accesserv = new AccessServ();
 
 router.get('/fetchMy', accesserv.CheckLoggedInUser, async (req, res, next) => {
-    console.log('kram')
-    let userData = await profserv.fetch(req.user);
+    let userData = await profserv.fetch(req.user._id);
     res.send(userData);
 })
 
+router.get('/fetchOther/:id', accesserv.CheckLoggedInUser, async (req, res, next) => {
+    let userData = await profserv.fetchOther(req.params.id);
+    res.send(userData);
+})
 
 module.exports = router;
